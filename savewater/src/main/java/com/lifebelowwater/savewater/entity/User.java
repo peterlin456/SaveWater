@@ -18,8 +18,6 @@ public class User {
     @Column(name="user_name", nullable=false,length = 255)
     private String username;
 
-
-
     @Column(name = "first_name", nullable = false, length = 20)
     private String firstname;
 
@@ -38,10 +36,13 @@ public class User {
     @Column(name="password", nullable=false,length = 60)
     private String password;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable()
-    private Collection<Role> role;
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinTable()
+//    private Collection<Role> role;
 
+    public User(){
+
+    }
     public User(int userid, String username, String firstname, String lastname, int phone, String address, String email, String password) {
         this.userid = userid;
         this.username = username;

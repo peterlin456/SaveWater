@@ -32,7 +32,9 @@ public class UserServiceImpl implements UserService{
                 userDTO.getAddress(),
                 this.passwordEncoder.encode(userDTO.getPassword())
         );
-        userRepository.save(user);
+            userRepository.save(user);
+
+
 
         return user.getUsername();
     }
