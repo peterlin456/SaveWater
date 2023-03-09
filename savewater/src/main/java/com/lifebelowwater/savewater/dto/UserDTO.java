@@ -10,23 +10,31 @@ import lombok.Data;
 public class UserDTO {
 
 
-    public UserDTO(int userid, String username, String email, String password) {
-        this.userid = userid;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
-
     private int userid;
-
 
     private String username;
 
+    private String firstname;
+
+    private String lastname;
+
+    private int phone;
+
+    private String address;
 
     private String email;
 
 
     private String password;
 
-
+    public UserDTO(int userid, String username, String firstname, String lastname, int phone, String address, String email, String password) {
+        this.userid = userid;
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phone = phone;
+        this.address = address;
+        this.email = email;
+        this.password = password;
+    }
 }
