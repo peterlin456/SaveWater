@@ -2,9 +2,11 @@ package com.lifebelowwater.savewater.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "role")
+@Data
 public class Role {
 
     @Id
@@ -12,4 +14,9 @@ public class Role {
     private Long id;
 
     private String name;
+
+    public Role(String role_user) {
+        this.name = role_user;
+    }
+
 }

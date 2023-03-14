@@ -2,14 +2,22 @@ package com.lifebelowwater.savewater.service;
 
 import com.lifebelowwater.savewater.dto.LoginDTO;
 import com.lifebelowwater.savewater.dto.UserDTO;
+import com.lifebelowwater.savewater.entity.Role;
 import com.lifebelowwater.savewater.entity.User;
 import com.lifebelowwater.savewater.repository.UserRepository;
 import com.lifebelowwater.savewater.response.LoginMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -28,10 +36,10 @@ public class UserServiceImpl implements UserService{
                 userDTO.getFirstname(),
                 userDTO.getLastname(),
                 userDTO.getPhone(),
-                userDTO.getEmail(),
                 userDTO.getAddress(),
-                this.passwordEncoder.encode(userDTO.getPassword())
-        );
+                userDTO.getEmail(),
+                this.passwordEncoder.encode(userDTO.getPassword()),
+                Arrays.asList(new Role("ROLE_USER")));
             userRepository.save(user);
 
 
@@ -62,4 +70,22 @@ public class UserServiceImpl implements UserService{
             return new LoginMessage("Email not exits", false);
         }
     }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("Invalid username");
+        }
+         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+
+
+    }
+
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    }
+
+
 }
