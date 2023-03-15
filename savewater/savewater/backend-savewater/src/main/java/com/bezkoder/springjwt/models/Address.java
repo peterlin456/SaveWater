@@ -1,4 +1,4 @@
-package com.lifebelowwater.savewater.entity;
+package com.bezkoder.springjwt.models;
 
 import lombok.Getter;
 import lombok.Setter;
