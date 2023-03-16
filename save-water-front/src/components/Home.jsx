@@ -1,9 +1,40 @@
 import React from 'react'
-
+import { Col, Row, Container,ListGroup, Button} from "react-bootstrap";
+import { Link } from 'react-router-dom';
+import '../styles/home.css';
 export default function Home() {
   return (
-    <div>Home
-        <p>111111</p>
-    </div>
+    
+    <div className="area">
+            <ul className="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+    <Container className='home-title-container'>
+    <Row className='home-row'>
+      <Col className='home-col-left text-right' xs={8}><img src="data:image/png;base64,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"/>
+   </Col>
+    <Col className='home-col-right'><span>14</span> <p>Life Below Water</p></Col>
+    </Row>
+    <Row>
+      <Col className='home-col-learn text-center'>
+      <Link to="/about">
+        <Button variant="outline-light" size="lg">
+          Learn More About Us
+        </Button>
+      </Link>
+      </Col>
+    </Row>
+  </Container>
+    </div >
+ 
   )
 }

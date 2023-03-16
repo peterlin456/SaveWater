@@ -14,10 +14,15 @@ export default function Regsiter() {
 
     username:'',
     email: '',
-    password: ''
+    password: '',
+    phone:'',
+    address:'',
+    firstname:'',
+    lastname:''
 
   });
-  const {username,email,password} = formValue;
+  const {username,email,password,phone,address,firstname,lastname} = formValue;
+  console.log(formValue)
   const handleInputChange = (event) => {
     setformValue({
       ...formValue,
@@ -46,17 +51,41 @@ export default function Regsiter() {
                   <h2 className="fw-bold mb-2 text-center text-uppercase ">Logo</h2>
                   <div className="mb-3">
                     <Form>
+
                       <Form.Group className="mb-3">
                         <Form.Label className="text-center">
-                          Full Name
+                          First Name
                         </Form.Label>
-                        <Form.Control type="text" placeholder="Enter Name"  id="name"/>
+                        <Form.Control type="text" placeholder="Enter First Name"  id="firstname" value={firstname} onChange={(e)=>handleInputChange(e)}/>
                       </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="text-center">
+                          Last Name
+                        </Form.Label>
+                        <Form.Control type="text" placeholder="Enter Last Name"  id="lastname" value={lastname} onChange={(e)=>handleInputChange(e)}/>
+                      </Form.Group>
+
                       <Form.Group className="mb-3">
                         <Form.Label className="text-center">
                           Username
                         </Form.Label>
                         <Form.Control type="text" placeholder="Enter Name"  id="username" value={username} onChange = {(e) => handleInputChange(e)}/>
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="text-center">
+                          Phone Number
+                        </Form.Label>
+                        <Form.Control type="text" placeholder="Enter Phone Number"  id="phone" value={phone} onChange = {(e) => handleInputChange(e)}/>
+                      </Form.Group>
+
+
+                      <Form.Group className="mb-3">
+                        <Form.Label className="text-center">
+                          Address
+                        </Form.Label>
+                        <Form.Control type="text" placeholder="Enter Address"  id="address" value={address} onChange = {(e) => handleInputChange(e)}/>
                       </Form.Group>
 
                       <Form.Group className="mb-3" >
@@ -67,19 +96,17 @@ export default function Regsiter() {
                       </Form.Group>
 
                       <Form.Group
-                        className="mb-3"
-                      
-                      >
+                        className="mb-3" >
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password"    id="password" value={password} onChange = {(e) => handleInputChange(e)}/>
                       </Form.Group>
+
                       <Form.Group
-                        className="mb-3"
-                        
-                      >
+                        className="mb-3" >
                         <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" id="confirmPassword"/>
+                        <Form.Control type="password" placeholder="Confirm Password" id="confirmPassword"/>
                       </Form.Group>
+
                       <Form.Group
                         className="mb-3"
                         controlId="formBasicCheckbox"
