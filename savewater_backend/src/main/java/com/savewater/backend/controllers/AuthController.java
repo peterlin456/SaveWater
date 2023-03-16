@@ -1,8 +1,6 @@
 package com.savewater.backend.controllers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -23,13 +21,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -88,6 +83,10 @@ public class AuthController {
     // Create new user's account
     User user = new User(signUpRequest.getUsername(),
                signUpRequest.getEmail(),
+               signUpRequest.getPhone(),
+               signUpRequest.getFirstname(),
+               signUpRequest.getLastname(),
+               signUpRequest.getHomeAddress(),
                encoder.encode(signUpRequest.getPassword()));
 
     Set<String> strRoles = signUpRequest.getRole();
@@ -125,4 +124,18 @@ public class AuthController {
 
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
+
+  // dashboard for phone, address, firstname, lastname, email
+  @RequestMapping("/dashboard")
+  public Map<String, String> userInfo(@AuthenticationPrincipal User user){
+    Map<String, String> result = new HashMap<>();
+    result.put("First Name",user.getFirstname());
+    result.put("Last Name", user.getLastname());
+    result.put("Phone Number", user.getPhone().toString());
+    result.put("Email", user.getEmail());
+    result.put("Address",user.getHomeAddress().toString());
+
+    return result;
+  }
+
 }

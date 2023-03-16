@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.savewater.backend.models.Address;
 import com.savewater.backend.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,26 +13,43 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class UserDetailsImpl implements UserDetails {
   private static final long serialVersionUID = 1L;
 
   private Long id;
 
   private String username;
-
   private String email;
 
+  private Long phone;
+
+  private String firstname;
+
+  private String lastname;
+
+  private Address homeAddress;
   @JsonIgnore
   private String password;
 
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserDetailsImpl(Long id, String username, String email, String password,
+  public UserDetailsImpl(Long id, String username, String email, String password,Long phone, String firstname,
+      String lastname, Address homeAddress,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.password = password;
+    this.phone = phone;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.homeAddress = homeAddress;
     this.authorities = authorities;
   }
 
@@ -44,7 +62,11 @@ public class UserDetailsImpl implements UserDetails {
         user.getId(), 
         user.getUsername(), 
         user.getEmail(),
-        user.getPassword(), 
+        user.getPassword(),
+        user.getPhone(),
+        user.getFirstname(),
+        user.getLastname(),
+        user.getHomeAddress(),
         authorities);
   }
 
