@@ -1,13 +1,22 @@
 import React from 'react'
+import {Button} from "react-bootstrap";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Logout from './Logout';
 // import NavDropdown from 'react-bootstrap/NavDropdown';
 export default function Navb() {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
     <Container>
-      <Navbar.Brand href="/">Life Below Water</Navbar.Brand>
+
+      <Navbar.Brand href="/"> <img
+              alt=""
+              src="https://lirp.cdn-website.com/3647da67/dms3rep/multi/opt/Bluechips_Goal_No14icon-1920w.png"
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+            />{' '}Life Below Water</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="me-auto">
@@ -26,10 +35,12 @@ export default function Navb() {
           </NavDropdown> */}
         </Nav>
         <Nav>
-          <Nav.Link href='/register'>Sign Up</Nav.Link>
-          <Nav.Link href='/login'>Login</Nav.Link>
+          
+          <Button variant="dark" href='/register'>Sign Up</Button>
+          <Button variant="dark" href='/login'>Login</Button>
           
           
+
         </Nav>
       </Navbar.Collapse>
     </Container>

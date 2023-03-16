@@ -1,11 +1,19 @@
-import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
+import { Col, Button, Row, Container, Card, Form,Alert } from "react-bootstrap";
 import {useState} from 'react';
 import axios from 'axios';
+import { useSignIn } from "react-auth-kit";
+import { useNavigate } from "react-router-dom";
+
 export default function Login() {
+    const [loggedIn,setLoggedIn] =useState('');
     const [state, setState] = useState({
-      username: "",
+      email: "",
       password: ""
     });
+    const navigate = useNavigate('');
+    const signIn = useSignIn();
+    const [error,setError] = useState('');
+    const [fail,setFail] =useState('');
     const handleChange = (e) => {
       const value = e.target.value;
       setState({
@@ -16,12 +24,26 @@ export default function Login() {
 
     const handleSubmit = async(e) => {
       e.preventDefault();
+      if (state.email === "" || state.password === "") {
+        setError("Please Enter Email and Password");
+        return;
+      }
       const userData = {
-        username: state.username,
+        email: state.email,
         password: state.password
       };
       await axios.post("http://localhost:8080/api/v1/user/login", userData).then((response) => {
-        console.log(response.status, response.data);
+        signIn({
+          // token:reponse.data.token,
+          expiresIn:3600,
+          // tokenType:''
+          authState:{email:userData.email}
+        });
+        if(response.data.status === false){
+          setFail("Email or Password is not Correct");
+        }else{      
+        navigate('/userdash');
+        }
       });
     };
   return (
@@ -41,7 +63,7 @@ export default function Login() {
                         <Form.Label className="text-center">
                           Email
                         </Form.Label>
-                        <Form.Control type="email" placeholder="Enter username" name="username"  value={state.username} onChange={handleChange}/>
+                        <Form.Control type="email" placeholder="Enter Email" name="email"  value={state.email} onChange={handleChange}/>
                       </Form.Group>
 
                       <Form.Group
@@ -61,16 +83,31 @@ export default function Login() {
                           </a>
                         </p>
                       </Form.Group>
+                      {error  &&(
+                          <Alert
+                          severity="error" onClick={() => setError(null)}
+                          >
+                            {error}
+                          </Alert>
+                        )}
+                        {fail  &&(
+                          <Alert
+                          severity="error" onClick={() => setFail(null)}
+                          >
+                            {fail}
+                          </Alert>
+                        )}
                       <div className="d-grid">
                         <Button variant="primary" type="submit">
                           Login
                         </Button>
+                        
                       </div>
                     </Form>
                     <div className="mt-3">
                       <p className="mb-0  text-center">
                         Don't have an account?{" "}
-                        <a href="{''}" className="text-primary fw-bold">
+                        <a href="/register" className="text-primary fw-bold">
                           Sign Up
                         </a>
                       </p>
