@@ -171,11 +171,11 @@ public class AuthController {
 //  }
 
   //method 5 :
-  @RequestMapping(value = "/username", method = RequestMethod.GET)
-  @ResponseBody
-  public String currentUserName(Authentication authentication) {
-    return authentication.getName();
-  }
+//  @RequestMapping(value = "/username", method = RequestMethod.GET)
+//  @ResponseBody
+//  public String currentUserName(Authentication authentication) {
+//    return authentication.getName();
+//  }
 
 
 //  @GetMapping("/username") //failed return empty but 200.ok
