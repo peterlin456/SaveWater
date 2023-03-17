@@ -1,8 +1,10 @@
 package com.savewater.backend.controllers;
 
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.savewater.backend.models.ERole;
@@ -17,12 +19,16 @@ import com.savewater.backend.repository.UserRepository;
 import com.savewater.backend.security.jwt.JwtUtils;
 import com.savewater.backend.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -125,17 +131,70 @@ public class AuthController {
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
 
-  // dashboard for phone, address, firstname, lastname, email
-  @RequestMapping("/dashboard")
-  public Map<String, String> userInfo(@AuthenticationPrincipal User user){
-    Map<String, String> result = new HashMap<>();
-    result.put("First Name",user.getFirstname());
-    result.put("Last Name", user.getLastname());
-    result.put("Phone Number", user.getPhone().toString());
-    result.put("Email", user.getEmail());
-    result.put("Address",user.getHomeAddress().toString());
 
-    return result;
+  // dashboard for phone, address, firstname, lastname, email
+  @GetMapping("/{username}/dashboard") //failed
+  public ResponseEntity<?> userInfo(@PathVariable String username){
+    //method 1 ClassCastException
+//    AbstractAuthenticationToken auth = (AbstractAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+//    UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
+
+    //method 2  received "First Name": "anonymousUser"
+//    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+
+    Map<String, String> result = new HashMap<>();
+//    result.put("First Name",userDetails.getFullname());
+//    result.put("Last Name", auth.getLastname());
+//    result.put("Phone Number", userDetails.getPhone());
+//    result.put("Email", userDetails.getEmail());
+//    result.put("Address",userDetails.getHomeAddress().toString());
+
+    // method 4:"anonymousUser"
+//    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//    String name = "";
+//    if (principal instanceof UserDetails) {
+//       name = ((UserDetails)principal).getUsername();
+//    } else {
+//       name = principal.toString();
+//    }
+//    result.put("Name: ", name);
+
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
+  //method 3: java.security.Principal.getName()" because "principal" is null
+//  @RequestMapping(value = "/myusername", method = RequestMethod.GET)
+//  @ResponseBody
+//  public String currentUserName(Principal principal) {
+//    return principal.getName();
+//  }
+
+  //method 5 :
+  @RequestMapping(value = "/username", method = RequestMethod.GET)
+  @ResponseBody
+  public String currentUserName(Authentication authentication) {
+    return authentication.getName();
+  }
+
+
+//  @GetMapping("/username") //failed return empty but 200.ok
+//  @ResponseBody
+//  public String currentUserName(Authentication authentication) {
+//
+//    if (authentication != null)
+//      return authentication.getName();
+//    else
+//      return "";
+//  }
+//  @GetMapping("/authentication") //sesseion and remote address ???
+//  public Object authentication(@CurrentSecurityContext(expression="authentication")
+//                               Authentication authentication) {
+//    return authentication.getDetails();
+//  }
+//  @GetMapping("/hello") //Hello, anonymousUser!
+//  public String hello(@CurrentSecurityContext(expression="authentication.name")
+//                      String username) {
+//    return "Hello, " + username + "!";
+//  }
 }

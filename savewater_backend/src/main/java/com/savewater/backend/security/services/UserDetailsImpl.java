@@ -13,21 +13,22 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
 
 public class UserDetailsImpl implements UserDetails {
   private static final long serialVersionUID = 1L;
 
+  private User user;
+
+  public UserDetailsImpl(User user){
+      this.user = user;
+  }
   private Long id;
 
   private String username;
   private String email;
 
-  private Long phone;
+  private String phone;
 
   private String firstname;
 
@@ -39,7 +40,7 @@ public class UserDetailsImpl implements UserDetails {
 
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserDetailsImpl(Long id, String username, String email, String password,Long phone, String firstname,
+  public UserDetailsImpl(Long id, String username, String email, String password,String phone, String firstname,
       String lastname, Address homeAddress,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
@@ -83,6 +84,17 @@ public class UserDetailsImpl implements UserDetails {
     return email;
   }
 
+  public String getFirstname(){ return firstname;}
+
+  public String getFullname(){
+    return user.getFirstname() + user.getLastname();
+  }
+  public String getLastname(){ return  lastname;}
+
+  public String getPhone(){ return phone; }
+
+  public Address getHomeAddress(){ return homeAddress;}
+
   @Override
   public String getPassword() {
     return password;
@@ -122,4 +134,6 @@ public class UserDetailsImpl implements UserDetails {
     UserDetailsImpl user = (UserDetailsImpl) o;
     return Objects.equals(id, user.id);
   }
+
+
 }
