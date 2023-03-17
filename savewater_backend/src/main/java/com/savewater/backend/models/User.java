@@ -33,7 +33,7 @@ public class User {
 
   @NotBlank
   @Size(max = 10)
-  private Long phone;
+  private String phone;
 
   @NotBlank
   private String firstname;
@@ -62,7 +62,7 @@ public class User {
 // forget password? (post and email)
 
 
-  public User(String email, Long phone, String firstname, String lastname, Address homeAddress) {
+  public User(String email, String phone, String firstname, String lastname, Address homeAddress) {
     this.email = email;
     this.phone = phone;
     this.firstname = firstname;
@@ -70,7 +70,7 @@ public class User {
     this.homeAddress = homeAddress;
   }
 
-  public User(String username, String email, Long phone, String firstname, String lastname, Address homeAddress, String password) {
+  public User(String username, String email, String phone, String firstname, String lastname, Address homeAddress, String password) {
     this.username = username;
     this.email = email;
     this.phone = phone;

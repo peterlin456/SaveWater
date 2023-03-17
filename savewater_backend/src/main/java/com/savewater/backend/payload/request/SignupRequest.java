@@ -23,7 +23,7 @@ public class SignupRequest {
 
   @NotBlank
   @Size(max = 10)
-  private Long phone;
+  private String phone;
 
   @NotBlank
   private String firstname;
