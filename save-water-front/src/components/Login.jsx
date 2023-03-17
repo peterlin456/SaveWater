@@ -32,11 +32,11 @@ export default function Login() {
         email: state.email,
         password: state.password
       };
-      await axios.post("http://localhost:8080/api/v1/user/login", userData).then((response) => {
+      await axios.post("http://localhost:8080/api/auth/signin", userData).then((response) => {
         signIn({
           // token:reponse.data.token,
           expiresIn:3600,
-          // tokenType:''
+          // tokenType:'Bearr'
           authState:{email:userData.email}
         });
         if(response.data.status === false){

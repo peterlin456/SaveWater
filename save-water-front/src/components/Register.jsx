@@ -16,27 +16,41 @@ export default function Regsiter() {
     email: '',
     password: '',
     phone:'',
-    address:'',
+    address:{
+    },
     firstname:'',
     lastname:''
 
   });
-  const {username,email,password,phone,address,firstname,lastname} = formValue;
-  console.log(formValue)
+  const [address,setAddress]=useState({
+    street:'',
+    city:'',
+    state:'',
+    country:'',
+    zipcode:''
+  });
+  const {street,city,state,country,zipcode} = address;
+  const {username,email,password,phone,firstname,lastname} = formValue;
+  const handleAddress =(e)=>{
+    setAddress({...address,[e.target.id]:e.target.value})
+  }
   const handleInputChange = (event) => {
     setformValue({
       ...formValue,
-      [event.target.id]: event.target.value
+      [event.target.id]: event.target.value,
     });
+
   }
   const handleSubmit=async(e)=>{
+    formValue.address=address;
     e.preventDefault();
     try{
-    await axios.post("http://localhost:8080/api/v1/user/save",formValue)
+    await axios.post("http://localhost:8080/api/auth/signup",formValue)
     navigate('/')
     }catch(e){
       console.log(e)
     }
+    console.log(formValue);
  
 };
   return (
@@ -83,18 +97,42 @@ export default function Regsiter() {
 
                       <Form.Group className="mb-3">
                         <Form.Label className="text-center">
-                          Address
+                          Street
                         </Form.Label>
-                        <Form.Control type="text" placeholder="Enter Address"  id="address" value={address} onChange = {(e) => handleInputChange(e)}/>
+                        <Form.Control type="text" placeholder="Enter street"  id="street" value={street} onChange = {(e) => handleAddress(e)}/>
+                      </Form.Group>
+                      <Form.Group className="mb-3">
+                        <Form.Label className="text-center">
+                          City
+                        </Form.Label>
+                        <Form.Control type="text" placeholder="Enter City"  id="city" value={city} onChange = {(e) => handleAddress(e)}/>
+                      </Form.Group>
+                      <Form.Group className="mb-3">
+                        <Form.Label className="text-center">
+                          State
+                        </Form.Label>
+                        <Form.Control type="text" placeholder="Enter State"  id="state" value={state} onChange = {(e) => handleAddress(e)}/>
+                      </Form.Group>
+                      <Form.Group className="mb-3">
+                        <Form.Label className="text-center">
+                          Country
+                        </Form.Label>
+                        <Form.Control type="text" placeholder="Enter Country"  id="country" value={country} onChange = {(e) => handleAddress(e)}/>
                       </Form.Group>
 
                       <Form.Group className="mb-3" >
                         <Form.Label className="text-center">
-                          Email address
+                          Zip Code
+                        </Form.Label>
+                        <Form.Control type="text" placeholder="Enter zipcode"  id="zipcode" value={zipcode} onChange = {(e) => handleAddress(e)}/>
+                      </Form.Group>
+
+                      <Form.Group className="mb-3" >
+                        <Form.Label className="text-center">
+                          Email
                         </Form.Label>
                         <Form.Control type="email" placeholder="Enter email"  id="email" value={email} onChange = {(e) => handleInputChange(e)}/>
                       </Form.Group>
-
                       <Form.Group
                         className="mb-3" >
                         <Form.Label>Password</Form.Label>
