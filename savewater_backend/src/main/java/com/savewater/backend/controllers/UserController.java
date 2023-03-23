@@ -18,7 +18,7 @@ public class UserController {
         String response = userService.forgotPassword(email);
 
         if (!response.startsWith("Invalid")) {
-            response = "http://localhost:8080//api/auth/reset-password?token=" + response;
+            response = "http://localhost:8080/api/auth/reset-password?token=" + response;
         }
         return response;
     }

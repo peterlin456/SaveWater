@@ -4,7 +4,9 @@ package com.savewater.backend.service;
 import com.savewater.backend.models.User;
 import com.savewater.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +22,14 @@ public class UserService {
     private static final long EXPIRE_TOKEN_AFTER_MINUTES = 30;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
     private UserRepository userRepository;
 
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
     public String forgotPassword(String email) {
 
         Optional<User> userOptional = Optional
@@ -58,7 +66,8 @@ public class UserService {
 
         User user = userOptional.get();
 
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));
+
         user.setResetPasswordToken(null);
         user.setTokenCreationDate(null);
 
