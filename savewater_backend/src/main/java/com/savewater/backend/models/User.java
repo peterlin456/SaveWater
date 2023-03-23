@@ -2,6 +2,7 @@ package com.savewater.backend.models;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,6 +56,11 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
+  @Column(name = "reset_password_token")
+  private String resetPasswordToken;
+
+  @Column(columnDefinition = "TIMESTAMP")
+  private LocalDateTime tokenCreationDate;
   public User() {
   }
 // phone, address, firstname, lastname
