@@ -101,6 +101,7 @@ public class AuthController {
     if (strRoles == null) {
       Role userRole = roleRepository.findByName(ERole.ROLE_USER)
           .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+
       roles.add(userRole);
 //    } else {
 //      strRoles.forEach(role -> {
@@ -171,11 +172,11 @@ public class AuthController {
 //  }
 
   //method 5 :
-  @RequestMapping(value = "/username", method = RequestMethod.GET)
-  @ResponseBody
-  public String currentUserName(Authentication authentication) {
-    return authentication.getName();
-  }
+//  @RequestMapping(value = "/username", method = RequestMethod.GET)
+//  @ResponseBody
+//  public String currentUserName(Authentication authentication) {
+//    return authentication.getName();
+//  }
 
 
 //  @GetMapping("/username") //failed return empty but 200.ok

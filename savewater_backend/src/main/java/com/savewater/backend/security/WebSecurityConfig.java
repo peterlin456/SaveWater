@@ -1,5 +1,6 @@
 package com.savewater.backend.security;
 
+import com.savewater.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
   @Autowired
   UserDetailsServiceImpl userDetailsService;
 
+
   @Autowired
   private AuthEntryPointJwt unauthorizedHandler;
 
@@ -49,7 +51,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
        
       authProvider.setUserDetailsService(userDetailsService);
       authProvider.setPasswordEncoder(passwordEncoder());
-   
+
       return authProvider;
   }
 
