@@ -19,7 +19,8 @@ export default function Regsiter() {
     address:{
     },
     firstname:'',
-    lastname:''
+    lastname:'',
+    role:["user"]
 
   });
   const [address,setAddress]=useState({
@@ -28,6 +29,7 @@ export default function Regsiter() {
     state:'',
     country:'',
     zipcode:''
+    
   });
   const {street,city,state,country,zipcode} = address;
   const {username,email,password,phone,firstname,lastname} = formValue;

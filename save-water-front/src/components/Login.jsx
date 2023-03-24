@@ -4,10 +4,9 @@ import axios from 'axios';
 import { useSignIn } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
-    const [loggedIn,setLoggedIn] =useState('');
+export default function Login(props) {
     const [state, setState] = useState({
-      email: "",
+      username: "",
       password: ""
     });
     const navigate = useNavigate('');
@@ -21,31 +20,39 @@ export default function Login() {
         [e.target.name]: value
       });
     };
-
+    const checkSignin= () =>{
+      props.setIsLoggedIn(true);
+    }
     const handleSubmit = async(e) => {
       e.preventDefault();
-      if (state.email === "" || state.password === "") {
+      if (state.username === "" || state.password === "") {
         setError("Please Enter Email and Password");
         return;
       }
       const userData = {
-        email: state.email,
+        username: state.username,
         password: state.password
       };
       await axios.post("http://localhost:8080/api/auth/signin", userData).then((response) => {
         signIn({
-          // token:reponse.data.token,
+          token:response.data.token,
           expiresIn:3600,
-          // tokenType:'Bearr'
-          authState:{email:userData.email}
+          tokenType:'Bearer',
+          authState:{username:userData.username}
         });
+      
         if(response.data.status === false){
           setFail("Email or Password is not Correct");
-        }else{      
-        navigate('/userdash');
         }
+        if(response.data.accessToken){
+          localStorage.setItem("user",JSON.stringify(response.data));
+        }
+        checkSignin();
+        navigate('/userdash');
+        return response.data;
       });
     };
+   
   return (
     <div>
       <Container>
@@ -61,9 +68,9 @@ export default function Login() {
                     <Form onSubmit={handleSubmit}>
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className="text-center">
-                          Email
+                          Username
                         </Form.Label>
-                        <Form.Control type="email" placeholder="Enter Email" name="email"  value={state.email} onChange={handleChange}/>
+                        <Form.Control type="text" placeholder="Enter username" name="username"  value={state.username} onChange={handleChange}/>
                       </Form.Group>
 
                       <Form.Group
