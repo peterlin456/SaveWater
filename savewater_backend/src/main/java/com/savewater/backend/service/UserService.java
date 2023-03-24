@@ -21,8 +21,8 @@ public class UserService {
 
     private static final long EXPIRE_TOKEN_AFTER_MINUTES = 30;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
 
@@ -64,6 +64,7 @@ public class UserService {
 
         }
 
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User user = userOptional.get();
 
         user.setPassword(passwordEncoder.encode(password));
