@@ -4,6 +4,9 @@ import com.savewater.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+
 @RestController
 @RequestMapping("/api/auth")
 public class UserController {
@@ -13,13 +16,15 @@ public class UserController {
 
 
     @PostMapping("/forgot-password")
-    public String forgotPassword(@RequestParam String email) {
+    public String forgotPassword(@RequestParam String email) throws MessagingException, UnsupportedEncodingException {
 
         String response = userService.forgotPassword(email);
 
         if (!response.startsWith("Invalid")) {
             response = "http://localhost:8080/api/auth/reset-password?token=" + response;
+            userService.sendEmail(email,response);
         }
+
         return response;
     }
 

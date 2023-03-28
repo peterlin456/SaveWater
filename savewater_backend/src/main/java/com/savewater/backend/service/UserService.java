@@ -5,11 +5,17 @@ import com.savewater.backend.models.User;
 import com.savewater.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -21,10 +27,13 @@ public class UserService {
 
     private static final long EXPIRE_TOKEN_AFTER_MINUTES = 30;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Bean
     public PasswordEncoder encoder() {
@@ -64,6 +73,7 @@ public class UserService {
 
         }
 
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User user = userOptional.get();
 
         user.setPassword(passwordEncoder.encode(password));
@@ -92,4 +102,28 @@ public class UserService {
 
         return diff.toMinutes() >= EXPIRE_TOKEN_AFTER_MINUTES;
     }
+    public void sendEmail(String toEMail,String link) throws MessagingException, UnsupportedEncodingException {
+
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper mailMessage = new MimeMessageHelper(message);
+        mailMessage.setFrom("contact@savewater.com", "SaveWater Support");
+        mailMessage.setTo(toEMail);
+        mailMessage.setSubject("Here's the link to reset your password");
+
+       String content = "<p>Hello,</p>"
+               + "<p>You have requested to reset your password.</p>"
+               + "<p>Click the link below to change your password:</p>"
+               + "<p><a href=\"" + link + "\">Change my password</a></p>"
+               + "<br>"
+               + "<p>Ignore this email if you do remember your password, "
+               + "or you have not made the request.</p>";
+        mailMessage.setText(content, true);
+
+        mailSender.send(message);
+
+
+    }
+
+
 }
