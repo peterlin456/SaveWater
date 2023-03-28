@@ -85,7 +85,7 @@ export default function Login(props) {
                         controlId="formBasicCheckbox"
                       >
                         <p className="small">
-                          <a className="text-primary" href="#!">
+                          <a className="text-primary" href="/forgot">
                             Forgot password?
                           </a>
                         </p>
