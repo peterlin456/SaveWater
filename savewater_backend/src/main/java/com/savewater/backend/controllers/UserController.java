@@ -60,18 +60,21 @@ public class UserController {
     }
 
     @PutMapping("/projects/{id}")
-    public ResponseEntity<Projects> updateEmployee(@PathVariable(value = "id") Long projectId,
-                                                   @Valid @RequestBody Projects employeeDetails) throws ResourceNotFoundException {
+    public ResponseEntity<Projects> updateProject(@PathVariable(value = "id") Long projectId,
+                                                   @Valid @RequestBody Projects projectsDetails) throws ResourceNotFoundException {
         Projects project = projectsRepository.findById(projectId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + projectId));
 
-        project.setId(employeeDetails.getId());
-        project.setName(employeeDetails.getName());
-        project.setDescription(employeeDetails.getDescription());
-        final Projects updatedEmployee = projectsRepository.save(project);
-        return ResponseEntity.ok(updatedEmployee);
+        project.setId(projectsDetails.getId());
+        project.setName(projectsDetails.getName());
+        project.setDate(projectsDetails.getDate());
+        project.setAddress(project.getAddress());
+        project.setImageUrl(project.getImageUrl());
+        project.setDescription(projectsDetails.getDescription());
+        final Projects updatedProject = projectsRepository.save(project);
+        return ResponseEntity.ok(updatedProject);
     }
-
+//event title, image, description, time, address
     @DeleteMapping("/projects/{id}")
     public Map<String, Boolean> deleteProject(@PathVariable(value = "id") Long projectId)
             throws ResourceNotFoundException {
