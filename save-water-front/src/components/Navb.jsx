@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Logout from './Logout';
 // import NavDropdown from 'react-bootstrap/NavDropdown';
-export default function Navb() {
+export default function Navb(props) {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
     <Container>
@@ -36,10 +36,11 @@ export default function Navb() {
         </Nav>
         <Nav>
           
-          <Button variant="dark" href='/register'>Sign Up</Button>
-          <Button variant="dark" href='/login'>Login</Button>
           
-          
+          {!props.isLoggedIn && <Button variant="dark" href='/register'>Sign Up</Button> }
+          {!props.isLoggedIn && <Button variant="dark" href='/login'>Login</Button> }
+          {props.isLoggedIn && <Logout></Logout>}
+       
 
         </Nav>
       </Navbar.Collapse>
