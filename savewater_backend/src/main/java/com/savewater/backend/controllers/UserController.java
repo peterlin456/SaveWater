@@ -49,16 +49,19 @@ public class UserController {
     }
 
 
+    //show all events
     @GetMapping("/projects-list")
     public List<Projects> findProjects() {
         return projectsRepository.findAll();
     }
 
+    //add an event
     @PostMapping("/add-project")
     public Projects createProjects(@Valid @RequestBody Projects project) {
         return projectsRepository.save(project);
     }
 
+    //update an event
     @PutMapping("/projects/{id}")
     public ResponseEntity<Projects> updateProject(@PathVariable(value = "id") Long projectId,
                                                    @Valid @RequestBody Projects projectsDetails) throws ResourceNotFoundException {
@@ -74,7 +77,8 @@ public class UserController {
         final Projects updatedProject = projectsRepository.save(project);
         return ResponseEntity.ok(updatedProject);
     }
-//event title, image, description, time, address
+
+    //delete an event
     @DeleteMapping("/projects/{id}")
     public Map<String, Boolean> deleteProject(@PathVariable(value = "id") Long projectId)
             throws ResourceNotFoundException {
@@ -87,6 +91,16 @@ public class UserController {
         return response;
     }
 
-
+//    @DeleteMapping("/projects/{id}")
+//    public Map<String, Boolean> deleteProject(@PathVariable(value = "id") Long projectId)
+//            throws ResourceNotFoundException {
+//        Projects project = projectsRepository.findById(projectId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + projectId));
+//
+//        projectsRepository.delete(project);
+//        Map<String, Boolean> response = new HashMap<>();
+//        response.put("deleted", Boolean.TRUE);
+//        return response;
+//    }
 
 }

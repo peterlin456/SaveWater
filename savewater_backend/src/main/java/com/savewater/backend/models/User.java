@@ -56,10 +56,12 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  //need Many to Many relationship between project and user
+  //need ManytoMany relationship between project and user
   @ManyToMany
-  @JoinTable()
-  
+  @JoinTable( name = "register_project",
+          joinColumns = @JoinColumn(name = "user_id"),
+          inverseJoinColumns = @JoinColumn(name = "project_id"))
+  private  Set<Projects> events;
 
   @Column(name = "reset_password_token")
   private String resetPasswordToken;
