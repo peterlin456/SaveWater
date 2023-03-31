@@ -90,7 +90,17 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         .authorizeRequests().antMatchers("/api/auth/**").permitAll()
         .antMatchers("/api/test/**").permitAll()
         .anyRequest().authenticated();
-    
+
+    //need add admin auth for /api/auth/ add update delete for projects
+    // "/projects/{id}" for delete
+    // "/projects/{id}" for update
+    // "/add-project" for add
+    // "/projects-list" for all users and guesses
+
+
+    //user auth:/api/auth/ register for projects
+
+
     http.authenticationProvider(authenticationProvider());
 
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

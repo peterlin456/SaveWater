@@ -56,7 +56,9 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  //need one to many relationship between project and user
+  //need Many to Many relationship between project and user
+  @ManyToMany
+  @JoinTable()
   
 
   @Column(name = "reset_password_token")
