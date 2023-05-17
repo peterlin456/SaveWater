@@ -1,9 +1,11 @@
 package com.savewater.backend.controllers;
 
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -18,6 +20,7 @@ import com.savewater.backend.repository.RoleRepository;
 import com.savewater.backend.repository.UserRepository;
 import com.savewater.backend.security.jwt.JwtUtils;
 import com.savewater.backend.security.services.UserDetailsImpl;
+import com.savewater.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +40,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
   @Autowired
+  private UserService userService;
+  @Autowired
   AuthenticationManager authenticationManager;
 
   @Autowired
@@ -51,6 +56,28 @@ public class AuthController {
   @Autowired
   JwtUtils jwtUtils;
 
+  //forget password
+  @PostMapping("/forgot-password")
+  public String forgotPassword(@RequestParam String email) throws MessagingException, UnsupportedEncodingException {
+
+    String response = userService.forgotPassword(email);
+
+    if (!response.startsWith("Invalid")) {
+      response = "http://localhost:8080/api/auth/reset-password?token=" + response;
+      userService.sendEmail(email,response);
+    }
+
+    return response;
+  }
+
+  @PutMapping("/reset-password")
+  public String resetPassword(@RequestParam String token,
+                              @RequestParam String password) {
+
+    return userService.resetPassword(token, password);
+  }
+
+
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -59,16 +86,16 @@ public class AuthController {
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
     String jwt = jwtUtils.generateJwtToken(authentication);
-    
+
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
     List<String> roles = userDetails.getAuthorities().stream()
         .map(item -> item.getAuthority())
         .collect(Collectors.toList());
 
     return ResponseEntity.ok(new JwtResponse(jwt,
-                         userDetails.getId(), 
-                         userDetails.getUsername(), 
-                         userDetails.getEmail(), 
+                         userDetails.getId(),
+                         userDetails.getUsername(),
+                         userDetails.getEmail(),
                          roles));
   }
 
@@ -103,6 +130,7 @@ public class AuthController {
           .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 
       roles.add(userRole);
+      //no need, only need create userRole
 //    } else {
 //      strRoles.forEach(role -> {
 //        switch (role) {
@@ -132,7 +160,7 @@ public class AuthController {
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
 
-
+  // No need, move to user controller
   // dashboard for phone, address, firstname, lastname, email
   @GetMapping("/{username}/dashboard") //failed
   public ResponseEntity<?> userInfo(@PathVariable String username){

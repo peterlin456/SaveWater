@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90ff3247-ad3d-4cb2-afa0-8bf5f764a72d" name="Changes" comment="" />
+    <list default="true" id="90ff3247-ad3d-4cb2-afa0-8bf5f764a72d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../savewater_backend/src/main/java/com/savewater/backend/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../savewater_backend/src/main/java/com/savewater/backend/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../savewater_backend/src/main/java/com/savewater/backend/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../savewater_backend/src/main/java/com/savewater/backend/controllers/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../savewater_backend/src/main/java/com/savewater/backend/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../savewater_backend/src/main/java/com/savewater/backend/security/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../savewater_backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../savewater_backend/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,15 +37,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/chico/Documents/React/Save_Water_Web/savewater_backend"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/chico/Documents/React/Save_Water_Web/savewater_backend&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.com.lifebelowwater.savewater.SpringBootSecurityJwtApplication">
     <configuration name="SpringBootSecurityJwtApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.bezkoder.springjwt.SpringBootSecurityJwtApplication" />

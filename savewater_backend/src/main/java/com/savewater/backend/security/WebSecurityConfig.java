@@ -65,6 +65,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
     return authConfig.getAuthenticationManager();
   }
 
+
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
@@ -81,13 +82,15 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 //
 //    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 //  }
-  
+
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+        .authorizeRequests().antMatchers("/api/auth/**").permitAll().and()
+            .authorizeRequests().antMatchers("/api/auth/user/**").authenticated().and()
+            .authorizeRequests().antMatchers("/api/auth/admin/**").authenticated()
         .antMatchers("/api/test/**").permitAll()
         .anyRequest().authenticated();
 
