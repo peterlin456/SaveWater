@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/api/auth")
+@RequestMapping("/api/auth/admin")
 //add admin
 public class AdminController {
 
